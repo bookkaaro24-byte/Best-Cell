@@ -1,0 +1,165 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Seller user profile and account details",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Seller full name",
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Avatar image URL"
+        },
+        "brandName": {
+          "type": "string",
+          "description": "Store or brand name",
+          "maxLength": 100
+        },
+        "contactPhone": {
+          "type": "string",
+          "description": "Default WhatsApp order phone",
+          "maxLength": 30
+        },
+        "defaultCurrency": {
+          "type": "string",
+          "description": "Default store currency",
+          "enum": ["PKR", "AED", "USD", "GBP", "EUR"]
+        },
+        "defaultTargetMarket": {
+          "type": "string",
+          "description": "Default target country/market",
+          "enum": ["Pakistan", "UAE", "International", "Custom"]
+        },
+        "credits": {
+          "type": "number",
+          "description": "Available AI credits count"
+        },
+        "plan": {
+          "type": "string",
+          "description": "Subscription plan tier",
+          "enum": ["Free", "Creator", "Business"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account creation timestamp"
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "Campaign": {
+      "title": "Campaign",
+      "description": "Generated marketing campaign package for a product",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique campaign identifier",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner UID of this campaign",
+          "maxLength": 128
+        },
+        "productName": {
+          "type": "string",
+          "description": "Product title or name",
+          "maxLength": 200
+        },
+        "category": {
+          "type": "string",
+          "description": "Product category",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last updated timestamp"
+        }
+      },
+      "required": ["id", "userId", "productName"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Customer inquiry or order question",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Inquiry identifier",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "Seller UID",
+          "maxLength": 128
+        },
+        "customerName": {
+          "type": "string",
+          "description": "Customer name",
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "description": "Customer inquiry message",
+          "maxLength": 2000
+        },
+        "productTitle": {
+          "type": "string",
+          "description": "Inquired product name",
+          "maxLength": 200
+        },
+        "channel": {
+          "type": "string",
+          "description": "Source channel",
+          "enum": ["whatsapp", "instagram", "facebook", "website", "other"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Inquiry status",
+          "enum": ["new", "replied", "closed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Inquiry creation timestamp"
+        }
+      },
+      "required": ["id", "userId", "customerName", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User seller account details and brand preferences"
+    },
+    "/users/{userId}/campaigns/{campaignId}": {
+      "schema": "Campaign",
+      "description": "Generated product campaigns owned by the user"
+    },
+    "/users/{userId}/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Customer inquiries received by the user"
+    }
+  }
+}
