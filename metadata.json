@@ -1,6 +1,6 @@
 {
   "name": "SellBoost",
   "description": "A-Z All-In-One Marketing, Campaign & Promotion SaaS: High-Search Volume Keyword Engine, Google Trends Grounding, 1-2 Week Themed Calendars, Ad Angles, Multi-Channel Copy & PDF Exports.",
-  "requestFramePermissions": ["camera"],
+  "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

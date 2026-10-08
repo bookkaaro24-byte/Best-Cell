@@ -37,7 +37,7 @@ export interface SampleProduct {
   targetAudience?: string;
 }
 
-export type BusinessType = 'product' | 'service';
+export type BusinessType = 'product' | 'service' | 'digital' | 'handmade' | 'rentals' | 'real_estate' | 'industrial';
 
 export interface ProductInput {
   name?: string;
@@ -385,6 +385,68 @@ export interface ThemedCampaignPlan {
   calendarNotes: string;
 }
 
+export interface CompetitorMarketingAngle {
+  angleName: string;
+  hook: string;
+  targetEmotion: string;
+  adCreativeFormat: string;
+  keyCopySnippet: string;
+  effectivenessRating: 'High' | 'Very High' | 'Moderate';
+}
+
+export interface CompetitorOpportunityItem {
+  competitorWeakness: string;
+  ourAdvantageHook: string;
+  suggestedCounterOffer: string;
+}
+
+export interface CompetitorAdCreative {
+  headline: string;
+  primaryText: string;
+  cta: string;
+  platform: 'Instagram' | 'TikTok' | 'Facebook' | 'Google Search';
+}
+
+export interface CompetitorResearchReport {
+  id: string;
+  competitorName: string;
+  websiteUrl?: string;
+  analyzedAt: string;
+  brandSummary: string;
+  marketPositioning: string;
+  estimatedPriceRange: {
+    min: number;
+    max: number;
+    currency: string;
+    formatted: string;
+  };
+  pricingStrategy: {
+    model: string;
+    discountTactics: string[];
+    upsellBundleTactics: string[];
+    shippingPolicy: string;
+    refundGuarantee: string;
+  };
+  marketingAngles: CompetitorMarketingAngle[];
+  customerReviewsAnalysis: {
+    topComplaints: string[];
+    topPraises: string[];
+    unmetCustomerNeeds: string[];
+  };
+  opportunityMatrix: CompetitorOpportunityItem[];
+  sampleAdCreatives: CompetitorAdCreative[];
+  scrapedInsights?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    extractedPromos?: string[];
+    detectedTechStack?: string[];
+  };
+  sourcesFound?: {
+    title: string;
+    url: string;
+  }[];
+}
+
 export interface SellingPackage {
   id: string;
   userId: string;
@@ -407,6 +469,7 @@ export interface SellingPackage {
   customerReplies: Record<string, string>;
   keywordsResearch?: KeywordResearchData;
   themedPlan?: ThemedCampaignPlan;
+  competitorsResearch?: CompetitorResearchReport[];
 }
 
 export interface CampaignHistoryItem {

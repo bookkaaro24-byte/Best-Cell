@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
 import { 
   UserProfile, 
   AdminSettings, 
@@ -19,6 +20,10 @@ import { CreditsAndPlansModal } from './components/CreditsAndPlansModal';
 import { AdminPanelModal } from './components/AdminPanelModal';
 import { ProfileModal } from './components/ProfileModal';
 import { GoogleChatView } from './components/GoogleChatView';
+import { SellingAssistantModal } from './components/SellingAssistantModal';
+import { LiveVoiceModal } from './components/LiveVoiceModal';
+import { GeminiChatbotModal } from './components/GeminiChatbotModal';
+import { DEMO_CAMPAIGN } from './data/demoCampaign';
 import { useAuth } from './context/AuthContext.tsx';
 
 export default function App() {
@@ -44,8 +49,8 @@ export default function App() {
   const [isGeneratingPackage, setIsGeneratingPackage] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Database / Persisted Data
-  const [campaigns, setCampaigns] = useState<SellingPackage[]>([]);
+  // Database / Persisted Data (Pre-seeded with DEMO_CAMPAIGN so users always have instant proof)
+  const [campaigns, setCampaigns] = useState<SellingPackage[]>([DEMO_CAMPAIGN]);
   const [inquiries, setInquiries] = useState<CustomerInquiry[]>([]);
   const [userProfile, setUserProfile] = useState<UserProfile>({
     id: 'usr_default',
@@ -70,7 +75,19 @@ export default function App() {
   const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAssistantModalOpen, setIsAssistantModalOpen] = useState(false);
+  const [isLiveVoiceOpen, setIsLiveVoiceOpen] = useState(false);
+  const [isGeminiChatOpen, setIsGeminiChatOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
+
+  // 1-Click Instant Demo Campaign Launcher (Instant Proof of Utility)
+  const handleOpenDemoCampaign = () => {
+    setActivePackage(DEMO_CAMPAIGN);
+    setUploadedImage(DEMO_CAMPAIGN.productImage);
+    setProductInfo(DEMO_CAMPAIGN.productInfo);
+    setAnalysisResult(DEMO_CAMPAIGN.analysis);
+    setCurrentView('dashboard');
+  };
 
   const showNotification = (text: string, type: 'error' | 'success' = 'error') => {
     let clean = text;
@@ -478,6 +495,10 @@ export default function App() {
           setActivePackage(null);
           setCurrentView('workspace');
         }}
+        onOpenDemoCampaign={handleOpenDemoCampaign}
+        onOpenAssistant={() => setIsAssistantModalOpen(true)}
+        onOpenLiveVoice={() => setIsLiveVoiceOpen(true)}
+        onOpenGeminiChat={() => setIsGeminiChatOpen(true)}
       />
 
       {/* Main View Router */}
@@ -486,6 +507,10 @@ export default function App() {
           <HeroLanding
             onStartUpload={() => setCurrentView('workspace')}
             onSelectSample={handleSelectSample}
+            onOpenDemoCampaign={handleOpenDemoCampaign}
+            onOpenAssistant={() => setIsAssistantModalOpen(true)}
+            onOpenLiveVoice={() => setIsLiveVoiceOpen(true)}
+            onOpenGeminiChat={() => setIsGeminiChatOpen(true)}
           />
         )}
 
@@ -503,6 +528,7 @@ export default function App() {
             isGeneratingPackage={isGeneratingPackage}
             userProfile={userProfile}
             onOpenCreditsModal={() => setIsCreditsModalOpen(true)}
+            onOpenAssistant={() => setIsAssistantModalOpen(true)}
           />
         )}
 
@@ -513,6 +539,7 @@ export default function App() {
             onSaveCampaign={handleSaveCampaign}
             isSaving={isSaving}
             onUpdatePackage={(updated) => setActivePackage(updated)}
+            onOpenAssistant={() => setIsAssistantModalOpen(true)}
           />
         )}
 
@@ -606,6 +633,78 @@ export default function App() {
         userProfile={userProfile}
         onUpdateProfile={handleUpdateProfile}
       />
+
+      {/* AI Selling Assistant (CEO & Sales Coach Copilot Modal) */}
+      <SellingAssistantModal
+        isOpen={isAssistantModalOpen}
+        onClose={() => setIsAssistantModalOpen(false)}
+        activePackage={activePackage}
+        productInfo={productInfo}
+        uploadedImage={uploadedImage}
+        onOpenLiveVoice={() => setIsLiveVoiceOpen(true)}
+        onOpenGeminiChat={() => setIsGeminiChatOpen(true)}
+      />
+
+      {/* Real-Time Live Voice Sales Coach (gemini-3.8-live) */}
+      <LiveVoiceModal
+        isOpen={isLiveVoiceOpen}
+        onClose={() => setIsLiveVoiceOpen(false)}
+        productInfo={productInfo}
+        productName={productInfo.name || analysisResult?.productType}
+        onOpenChatbot={() => setIsGeminiChatOpen(true)}
+      />
+
+      {/* Multi-Turn Gemini Chatbot (Pro / Flash / Flash-Lite with Roles) */}
+      <GeminiChatbotModal
+        isOpen={isGeminiChatOpen}
+        onClose={() => setIsGeminiChatOpen(false)}
+        productInfo={productInfo}
+        productName={productInfo.name || analysisResult?.productType}
+        onOpenLiveVoice={() => setIsLiveVoiceOpen(true)}
+      />
+
+      {/* Global Floating AI Selling Suite Action Cluster (Bottom Left) */}
+      <div className="fixed bottom-6 left-6 z-40 flex items-center gap-2 flex-wrap">
+        <button
+          type="button"
+          onClick={() => setIsAssistantModalOpen(true)}
+          className="px-4 py-3 rounded-full bg-gradient-to-r from-amber-500 via-indigo-600 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-white font-extrabold text-xs sm:text-sm shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-white/30 backdrop-blur-md cursor-pointer group"
+          title="Open SellBoost AI Chief Sales Officer & Copilot"
+        >
+          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-amber-300 group-hover:rotate-12 transition-transform shadow-inner">
+            <Sparkles className="w-3.5 h-3.5 fill-amber-300" />
+          </div>
+          <span>Sales Copilot</span>
+          <span className="hidden sm:inline px-2 py-0.5 rounded-full text-[10px] bg-slate-950/40 text-amber-300 font-black border border-white/20">
+            CEO
+          </span>
+        </button>
+
+        {/* Live Voice floating button */}
+        <button
+          type="button"
+          onClick={() => setIsLiveVoiceOpen(true)}
+          className="p-3 rounded-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold text-xs shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center border border-white/30 backdrop-blur-md cursor-pointer"
+          title="Start Live Voice Call with gemini-3.8-live"
+        >
+          <span className="relative flex h-3 w-3 mr-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-300 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          </span>
+          <span className="hidden sm:inline">Live Voice</span>
+        </button>
+
+        {/* Gemini Chatbot floating button */}
+        <button
+          type="button"
+          onClick={() => setIsGeminiChatOpen(true)}
+          className="px-3.5 py-3 rounded-full bg-slate-900/90 hover:bg-slate-800 text-purple-300 hover:text-white font-bold text-xs shadow-xl border border-purple-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer backdrop-blur-md"
+          title="Open Multi-Turn Gemini Chatbot (gemini-3.5-flash / pro / flash-lite)"
+        >
+          <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+          <span>Gemini Chat</span>
+        </button>
+      </div>
 
       {/* Floating Toast Notification */}
       {toastMessage && (

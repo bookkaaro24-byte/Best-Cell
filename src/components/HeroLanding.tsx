@@ -13,18 +13,28 @@ import {
   CheckCircle2, 
   Globe2,
   Zap,
-  Play
+  Play,
+  Mic,
+  Bot
 } from 'lucide-react';
 import { SAMPLE_PRODUCTS, SampleProduct } from '../data/samples';
 
 interface HeroLandingProps {
   onStartUpload: () => void;
   onSelectSample: (sample: SampleProduct) => void;
+  onOpenDemoCampaign?: () => void;
+  onOpenAssistant?: () => void;
+  onOpenLiveVoice?: () => void;
+  onOpenGeminiChat?: () => void;
 }
 
 export const HeroLanding: React.FC<HeroLandingProps> = ({
   onStartUpload,
-  onSelectSample
+  onSelectSample,
+  onOpenDemoCampaign,
+  onOpenAssistant,
+  onOpenLiveVoice,
+  onOpenGeminiChat
 }) => {
   return (
     <div className="w-full">
@@ -55,22 +65,54 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({
           </p>
 
           {/* Call to Actions */}
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 flex-wrap">
             <button
               onClick={onStartUpload}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 transition-all shadow-lg shadow-indigo-600/25 text-base"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 transition-all shadow-lg shadow-indigo-600/25 text-base cursor-pointer"
             >
               <UploadCloud className="w-5 h-5" />
-              <span>Upload Product</span>
+              <span>Upload Product Photo</span>
             </button>
 
-            <button
-              onClick={() => onSelectSample(SAMPLE_PRODUCTS[0])}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 active:scale-98 transition-all text-base shadow-xs"
-            >
-              <Play className="w-4 h-4 text-indigo-600 fill-indigo-600" />
-              <span>See Example</span>
-            </button>
+            {onOpenDemoCampaign && (
+              <button
+                onClick={onOpenDemoCampaign}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-slate-900 dark:text-white bg-gradient-to-r from-amber-400/25 via-indigo-500/20 to-purple-500/25 hover:from-amber-400/35 hover:to-purple-500/35 border border-amber-400/40 dark:border-amber-400/40 active:scale-98 transition-all text-base shadow-md cursor-pointer"
+              >
+                <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+                <span>Explore Live Demo Campaign (Instant Proof)</span>
+              </button>
+            )}
+
+            {onOpenAssistant && (
+              <button
+                onClick={onOpenAssistant}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 active:scale-98 transition-all text-base shadow-xs cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                <span>AI Sales Copilot</span>
+              </button>
+            )}
+
+            {onOpenLiveVoice && (
+              <button
+                onClick={onOpenLiveVoice}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800 active:scale-98 transition-all text-base shadow-xs cursor-pointer"
+              >
+                <Mic className="w-4 h-4 text-rose-500 animate-pulse" />
+                <span>Live Voice (gemini-3.8-live)</span>
+              </button>
+            )}
+
+            {onOpenGeminiChat && (
+              <button
+                onClick={onOpenGeminiChat}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800 active:scale-98 transition-all text-base shadow-xs cursor-pointer"
+              >
+                <Bot className="w-4 h-4 text-purple-500" />
+                <span>Gemini Chatbot</span>
+              </button>
+            )}
           </div>
 
           {/* Target Audience Badges */}
@@ -235,11 +277,41 @@ export const HeroLanding: React.FC<HeroLandingProps> = ({
                 <h4 className="font-semibold text-slate-900 dark:text-white text-sm truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                   {sample.name}
                 </h4>
-                <div className="flex items-center justify-between mt-2 text-xs text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-between mt-1 text-xs text-slate-500 dark:text-slate-400">
                   <span>{sample.targetMarket} Market</span>
-                  <span className="text-indigo-600 dark:text-indigo-400 font-medium flex items-center gap-0.5">
-                    Test Now →
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                    {sample.discountPercent}% OFF
                   </span>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onOpenDemoCampaign) {
+                        onOpenDemoCampaign();
+                      } else {
+                        onSelectSample(sample);
+                      }
+                    }}
+                    className="py-1.5 px-2 rounded-lg text-[11px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center gap-1 shadow-xs cursor-pointer"
+                    title="View completed selling campaign"
+                  >
+                    <Zap className="w-3 h-3 text-amber-300 fill-amber-300" />
+                    <span>View Proof</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectSample(sample);
+                    }}
+                    className="py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 flex items-center justify-center gap-1 cursor-pointer"
+                    title="Customize product details in workspace"
+                  >
+                    <span>Customize</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
                 </div>
               </div>
             </div>

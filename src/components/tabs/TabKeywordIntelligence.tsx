@@ -15,7 +15,8 @@ import {
   Layers,
   Flame,
   Globe2,
-  DollarSign
+  DollarSign,
+  Download
 } from 'lucide-react';
 import { 
   KeywordResearchData, 
@@ -59,6 +60,8 @@ export const TabKeywordIntelligence: React.FC<TabKeywordIntelligenceProps> = ({
     risingTopics: []
   };
 
+  const [activePlatformFilter, setActivePlatformFilter] = useState<'All' | 'Google' | 'Marketplace' | 'Social'>('All');
+
   const copyToClipboard = (text: string, keyId: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(keyId);
@@ -70,6 +73,37 @@ export const TabKeywordIntelligence: React.FC<TabKeywordIntelligenceProps> = ({
     navigator.clipboard.writeText(all);
     setCopiedAllKeywords(true);
     setTimeout(() => setCopiedAllKeywords(false), 2000);
+  };
+
+  const handleCopyForGoogleAds = () => {
+    const exact = research.highVolumeKeywords.map(k => `[${k.keyword}]`).join('\n');
+    navigator.clipboard.writeText(exact);
+    setCopiedKey('gads');
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const handleCopyForMarketplace = () => {
+    const tags = Array.from(new Set(research.highVolumeKeywords.map(k => k.keyword))).join(' ');
+    navigator.clipboard.writeText(tags);
+    setCopiedKey('mkt');
+    setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const handleExportCSV = () => {
+    const headers = "Keyword,Monthly Search Volume,Trend Status,Growth %,Competition,Search Intent,CPC Estimate,Source Engine\n";
+    const rows = research.highVolumeKeywords.map(k => 
+      `"${k.keyword}","${k.searchVolume}","${k.trendStatus}","+${k.trendGrowthPercent}%","${k.competition}","${k.searchIntent}","${k.cpcEstimate || 'N/A'}","${k.source}"`
+    ).join("\n");
+    const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const safeSeed = (research.seedQuery || 'keywords').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+    a.download = `${safeSeed}_search_volume_analytics.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const handleCopyAllHashtags = () => {
@@ -298,12 +332,12 @@ export const TabKeywordIntelligence: React.FC<TabKeywordIntelligenceProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* Filter by Intent */}
             <select
               value={filterIntent}
               onChange={(e) => setFilterIntent(e.target.value as any)}
-              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
               <option value="All">All Search Intents</option>
               <option value="Commercial">Commercial Intent</option>
@@ -313,10 +347,38 @@ export const TabKeywordIntelligence: React.FC<TabKeywordIntelligenceProps> = ({
 
             <button
               onClick={handleCopyAllKeywords}
-              className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Copy comma-separated keywords"
             >
               {copiedAllKeywords ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copiedAllKeywords ? "Copied All!" : "Copy All Keywords"}</span>
+              <span>{copiedAllKeywords ? "Copied All!" : "Copy Keywords"}</span>
+            </button>
+
+            <button
+              onClick={handleCopyForMarketplace}
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Copy search terms optimized for Shopify, Daraz, and Book Kaaro backend tags"
+            >
+              {copiedKey === 'mkt' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedKey === 'mkt' ? "Copied Tags!" : "Marketplace Tags"}</span>
+            </button>
+
+            <button
+              onClick={handleCopyForGoogleAds}
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Copy formatted as [exact match] for Google Ads campaign"
+            >
+              {copiedKey === 'gads' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedKey === 'gads' ? "Copied [Exact]!" : "Google Ads [Exact]"}</span>
+            </button>
+
+            <button
+              onClick={handleExportCSV}
+              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-all flex items-center gap-1.5 cursor-pointer"
+              title="Export complete search analytics dataset to CSV"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
             </button>
           </div>
         </div>

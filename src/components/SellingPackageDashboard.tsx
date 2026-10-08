@@ -19,7 +19,9 @@ import {
   ChevronDown,
   FileCheck,
   TrendingUp,
-  Calendar
+  Calendar,
+  Mail,
+  Crosshair
 } from 'lucide-react';
 import { 
   SellingPackage, 
@@ -28,6 +30,7 @@ import {
 } from '../types';
 import { TabDescription } from './tabs/TabDescription';
 import { TabKeywordIntelligence } from './tabs/TabKeywordIntelligence';
+import { TabCompetitorResearch } from './tabs/TabCompetitorResearch';
 import { TabThemedPlanner } from './tabs/TabThemedPlanner';
 import { TabSocialMedia } from './tabs/TabSocialMedia';
 import { TabMultilingual } from './tabs/TabMultilingual';
@@ -43,6 +46,7 @@ import { downloadCampaignZip } from '../utils/exportBundle';
 import { downloadCampaignAsPdf, downloadCampaignAsText } from '../utils/campaignExport';
 import { ShareToChatModal } from './ShareToChatModal';
 import { ExportCampaignModal } from './ExportCampaignModal';
+import { SendToGmailModal } from './SendToGmailModal';
 
 interface SellingPackageDashboardProps {
   sellingPackage: SellingPackage;
@@ -50,11 +54,13 @@ interface SellingPackageDashboardProps {
   onSaveCampaign: () => Promise<void>;
   isSaving: boolean;
   onUpdatePackage: (pkg: SellingPackage) => void;
+  onOpenAssistant?: () => void;
 }
 
 export type DashboardTab = 
   | 'description'
   | 'keywords'
+  | 'competitor'
   | 'theme_plan'
   | 'social'
   | 'multilingual'
@@ -70,6 +76,7 @@ export type DashboardTab =
 const TABS: { id: DashboardTab; label: string; icon: React.FC<{ className?: string }> }[] = [
   { id: 'description', label: 'Description', icon: FileText },
   { id: 'keywords', label: 'Keywords & Trends', icon: TrendingUp },
+  { id: 'competitor', label: 'Competitor Research', icon: Crosshair },
   { id: 'theme_plan', label: '1-2 Wk Themed Plan', icon: Calendar },
   { id: 'social', label: 'Social & WhatsApp', icon: MessageSquare },
   { id: 'multilingual', label: 'Urdu & Multilingual', icon: Globe2 },
@@ -88,11 +95,13 @@ export const SellingPackageDashboard: React.FC<SellingPackageDashboardProps> = (
   onBackToWorkspace,
   onSaveCampaign,
   isSaving,
-  onUpdatePackage
+  onUpdatePackage,
+  onOpenAssistant
 }) => {
   const [activeTab, setActiveTab] = useState<DashboardTab>('description');
   const [posterCanvasElement, setPosterCanvasElement] = useState<HTMLCanvasElement | null>(null);
   const [isShareToChatOpen, setIsShareToChatOpen] = useState(false);
+  const [isSendGmailOpen, setIsSendGmailOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isExportMenuOpen, setIsExportMenuOpen] = useState(false);
   const [isQuickPdfLoading, setIsQuickPdfLoading] = useState(false);
@@ -185,6 +194,30 @@ export const SellingPackageDashboard: React.FC<SellingPackageDashboardProps> = (
 
         {/* Header Actions */}
         <div className="flex items-center gap-2 relative">
+          {/* AI Sales Copilot Action */}
+          {onOpenAssistant && (
+            <button
+              onClick={onOpenAssistant}
+              className="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-900 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 hover:bg-amber-100 dark:hover:bg-amber-900/50 flex items-center gap-1.5 shadow-2xs active:scale-95 transition-all cursor-pointer"
+              title="Open SellBoost AI Chief Sales Officer & Copilot"
+            >
+              <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500/20" />
+              <span className="hidden sm:inline">Sales Copilot</span>
+              <span className="sm:hidden">Copilot</span>
+            </button>
+          )}
+
+          {/* Gmail Action */}
+          <button
+            onClick={() => setIsSendGmailOpen(true)}
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 hover:bg-red-100 dark:hover:bg-red-900/50 flex items-center gap-1.5 shadow-2xs active:scale-95 transition-all cursor-pointer"
+            title="Send campaign email or save draft via Gmail"
+          >
+            <Mail className="w-4 h-4 text-red-600 dark:text-red-400" />
+            <span className="hidden sm:inline">Gmail</span>
+            <span className="sm:hidden">Email</span>
+          </button>
+
           <button
             onClick={() => setIsShareToChatOpen(true)}
             className="px-3.5 py-2 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 flex items-center gap-1.5 shadow-2xs active:scale-95 transition-all cursor-pointer"
@@ -321,6 +354,13 @@ export const SellingPackageDashboard: React.FC<SellingPackageDashboardProps> = (
           />
         )}
 
+        {activeTab === 'competitor' && (
+          <TabCompetitorResearch
+            sellingPackage={sellingPackage}
+            onUpdatePackage={onUpdatePackage}
+          />
+        )}
+
         {activeTab === 'theme_plan' && (
           <TabThemedPlanner
             sellingPackage={sellingPackage}
@@ -426,6 +466,13 @@ export const SellingPackageDashboard: React.FC<SellingPackageDashboardProps> = (
       <ShareToChatModal
         isOpen={isShareToChatOpen}
         onClose={() => setIsShareToChatOpen(false)}
+        sellingPackage={sellingPackage}
+      />
+
+      {/* Send Campaign via Gmail Modal */}
+      <SendToGmailModal
+        isOpen={isSendGmailOpen}
+        onClose={() => setIsSendGmailOpen(false)}
         sellingPackage={sellingPackage}
       />
 

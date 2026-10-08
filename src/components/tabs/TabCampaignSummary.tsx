@@ -13,7 +13,8 @@ import {
   FileCheck,
   Eye,
   Share2,
-  ExternalLink
+  ExternalLink,
+  Crosshair
 } from 'lucide-react';
 import { SellingPackage } from '../../types';
 import { 
@@ -276,6 +277,18 @@ export const TabCampaignSummary: React.FC<TabCampaignSummaryProps> = ({
             <span className="font-bold text-base text-slate-900 dark:text-white">4 Listings</span>
           </div>
           <p className="text-xs text-slate-500">Shopify, Daraz, FB & Woo</p>
+        </div>
+
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 col-span-2 sm:col-span-1">
+          <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 mb-1">
+            <Crosshair className="w-4 h-4" />
+            <span className="font-bold text-base text-slate-900 dark:text-white">
+              {sellingPackage.competitorsResearch && sellingPackage.competitorsResearch.length > 0
+                ? `${sellingPackage.competitorsResearch.length} Rival Intel`
+                : 'Competitor Intel'}
+            </span>
+          </div>
+          <p className="text-xs text-slate-500">Angles & counter-offers</p>
         </div>
 
       </div>

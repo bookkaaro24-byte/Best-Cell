@@ -11,7 +11,10 @@ import {
   Sun, 
   Plus, 
   User,
-  ShoppingBag
+  ShoppingBag,
+  Zap,
+  Mic,
+  Bot
 } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -25,6 +28,10 @@ interface NavbarProps {
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
   onNewCampaign: () => void;
+  onOpenDemoCampaign?: () => void;
+  onOpenAssistant?: () => void;
+  onOpenLiveVoice?: () => void;
+  onOpenGeminiChat?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -37,6 +44,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   darkMode,
   setDarkMode,
   onNewCampaign,
+  onOpenDemoCampaign,
+  onOpenAssistant,
+  onOpenLiveVoice,
+  onOpenGeminiChat
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md">
@@ -119,6 +130,54 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right side utilities */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Live Demo Instant Showcase */}
+          {onOpenDemoCampaign && (
+            <button
+              onClick={onOpenDemoCampaign}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300 dark:border-amber-700/60 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 text-amber-900 dark:text-amber-200 text-xs font-bold hover:bg-amber-100 transition-all shadow-xs cursor-pointer"
+              title="Instantly explore completed selling campaign demo"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span>Live Demo</span>
+            </button>
+          )}
+
+          {/* Live Voice Button (gemini-3.8-live) */}
+          {onOpenLiveVoice && (
+            <button
+              onClick={onOpenLiveVoice}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-rose-300 dark:border-rose-700/80 bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-all shadow-xs cursor-pointer"
+              title="Real-Time Voice Call with gemini-3.8-live"
+            >
+              <Mic className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
+              <span className="hidden sm:inline">Live Voice</span>
+            </button>
+          )}
+
+          {/* Gemini Chatbot Button */}
+          {onOpenGeminiChat && (
+            <button
+              onClick={onOpenGeminiChat}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-purple-300 dark:border-purple-700/80 bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-xs font-bold hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-all shadow-xs cursor-pointer"
+              title="Multi-Turn Gemini Chatbot (Pro / Flash / Flash-Lite)"
+            >
+              <Bot className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+              <span className="hidden sm:inline">Gemini Chat</span>
+            </button>
+          )}
+
+          {/* AI Sales Copilot Button */}
+          {onOpenAssistant && (
+            <button
+              onClick={onOpenAssistant}
+              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-indigo-300 dark:border-indigo-700/80 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all shadow-xs cursor-pointer"
+              title="Open AI Sales Copilot (CEO & Sales Coach Mode)"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span className="hidden sm:inline">Sales Copilot</span>
+            </button>
+          )}
+
           {/* Credits button */}
           <button
             onClick={onOpenCreditsModal}

@@ -1,0 +1,586 @@
+/* ==========================================================================
+   SELLBOOST POSTER STUDIO — COHESIVE DESIGN SYSTEM & RESPONSIVE TEMPLATES
+   Features:
+   - Fluid typography scaling using clamp() & container query units (cqi)
+   - Calibrated line-heights for editorial & high-conversion retail typography
+   - High-contrast color palettes & protective scrims for complex image backgrounds
+   - 12 Archetype Themes with WCAG AA/AAA compliant contrast ratios
+   ========================================================================== */
+
+/* Container query root for responsive poster cards */
+.poster-container-root {
+  container-type: inline-size;
+  container-name: poster;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Poster Shell & Aspect Ratios */
+.poster-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  user-select: none;
+  isolation: isolate;
+  padding: clamp(0.75rem, 2cqi, 1.25rem);
+  box-sizing: border-box;
+}
+
+.poster-shell[data-format="square"] {
+  aspect-ratio: 1 / 1;
+}
+
+.poster-shell[data-format="portrait"] {
+  aspect-ratio: 4 / 5;
+}
+
+.poster-shell[data-format="story"] {
+  aspect-ratio: 9 / 16;
+}
+
+.poster-shell[data-format="landscape"] {
+  aspect-ratio: 16 / 9;
+}
+
+/* ==========================================================================
+   1. RESPONSIVE TYPOGRAPHY DESIGN SYSTEM USING clamp()
+   ========================================================================== */
+
+/* Main Product Title - Balanced, tight line-height, no orphans */
+.poster-title {
+  font-size: clamp(1rem, 2.8cqi + 0.2rem, 1.75rem);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 0;
+  padding: 0;
+}
+
+/* Large Heroic variant for story or impact scale */
+.poster-title[data-scale="impact"] {
+  font-size: clamp(1.15rem, 3.4cqi + 0.25rem, 2rem);
+  line-height: 1.15;
+}
+
+.poster-title[data-scale="compact"] {
+  font-size: clamp(0.9rem, 2.2cqi + 0.15rem, 1.45rem);
+  line-height: 1.2;
+}
+
+/* Headline Kicker / Brand Category Tagline */
+.poster-kicker {
+  font-size: clamp(0.65rem, 1.1cqi + 0.12rem, 0.9rem);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Primary Active Sale Price */
+.poster-price-active {
+  font-size: clamp(1.35rem, 3.8cqi + 0.3rem, 2.35rem);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+/* Original Strikethrough Price */
+.poster-price-strike {
+  font-size: clamp(0.8rem, 1.8cqi + 0.15rem, 1.25rem);
+  line-height: 1.1;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #ef4444;
+  opacity: 0.85;
+}
+
+/* Discount Highlight Stamp */
+.poster-discount-stamp {
+  font-size: clamp(0.68rem, 1.2cqi + 0.12rem, 0.95rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  padding: clamp(0.25rem, 0.6cqi, 0.45rem) clamp(0.5rem, 1.1cqi, 0.9rem);
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* Promo Code Voucher Badge */
+.poster-promo-pill {
+  font-size: clamp(0.62rem, 1cqi + 0.12rem, 0.85rem);
+  line-height: 1.2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: clamp(0.2rem, 0.5cqi, 0.4rem) clamp(0.45rem, 1cqi, 0.85rem);
+  border-radius: 9999px;
+}
+
+/* Customer Trust Rating */
+.poster-rating {
+  font-size: clamp(0.65rem, 1cqi + 0.12rem, 0.85rem);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Trust Badges Chips */
+.poster-badge-chip {
+  font-size: clamp(0.62rem, 1cqi + 0.1rem, 0.82rem);
+  line-height: 1.2;
+  font-weight: 600;
+  padding: clamp(0.2rem, 0.45cqi, 0.35rem) clamp(0.45rem, 0.9cqi, 0.75rem);
+  border-radius: clamp(0.35rem, 0.8cqi, 0.65rem);
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.2rem, 0.4cqi, 0.35rem);
+  white-space: nowrap;
+}
+
+/* High-Conversion Primary Call to Action Button */
+.poster-cta-button {
+  font-size: clamp(0.75rem, 1.35cqi + 0.15rem, 1.05rem);
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: clamp(0.45rem, 1cqi + 0.15rem, 0.75rem) clamp(1rem, 2cqi + 0.4rem, 1.75rem);
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.35rem, 0.6cqi, 0.6rem);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Feature Callout Pins for Infographic Compositions */
+.poster-feature-pin {
+  font-size: clamp(0.65rem, 1.1cqi + 0.15rem, 0.95rem);
+  line-height: 1.2;
+  font-weight: 700;
+  padding: clamp(0.3rem, 0.6cqi, 0.5rem) clamp(0.55rem, 1.1cqi, 0.9rem);
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+/* Verified Buyer Review Testimonial Card */
+.poster-review-card {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: clamp(0.75rem, 1.5cqi, 1.25rem);
+  padding: clamp(0.5rem, 1.2cqi, 0.85rem) clamp(0.75rem, 1.6cqi, 1.25rem);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.45);
+}
+
+/* Urgency Flash Scarcity Banner */
+.poster-urgency-banner {
+  background: linear-gradient(90deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: clamp(0.68rem, 1.2cqi + 0.18rem, 1.05rem);
+  letter-spacing: 0.05em;
+  padding: clamp(0.35rem, 0.7cqi, 0.65rem) clamp(0.75rem, 1.5cqi, 1.5rem);
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+}
+
+/* WhatsApp Direct Order 3-Step Guide */
+.poster-order-step {
+  font-size: clamp(0.62rem, 1cqi + 0.12rem, 0.88rem);
+  line-height: 1.25;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #e2e8f0;
+}
+
+/* Store & WhatsApp Footer */
+.poster-footer {
+  font-size: clamp(0.65rem, 1.05cqi + 0.12rem, 0.92rem);
+  line-height: 1.35;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   2. HIGH-CONTRAST SCRIMS & OPTIMIZED OVERLAYS FOR COMPLEX BACKGROUNDS
+   ========================================================================== */
+
+/* Multi-stop protective contrast scrims behind complex images */
+.poster-scrim-deep-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.86) 35%,
+    rgba(0, 0, 0, 0.6) 65%,
+    rgba(0, 0, 0, 0.2) 85%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.poster-scrim-top-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.5) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.poster-scrim-light-bottom {
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.92) 40%,
+    rgba(255, 255, 255, 0.65) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Atmospheric Product Radial Halo - subtle glow that never tints authentic product colors */
+.poster-product-halo {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(28px);
+  opacity: 0.18;
+  z-index: 0;
+}
+
+/* Hide scrollbar utility for badges row */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Grounding Contact Drop Shadow for floating products */
+.poster-contact-shadow {
+  position: absolute;
+  bottom: 0%;
+  left: 10%;
+  right: 10%;
+  height: clamp(12px, 3cqi, 28px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 70%);
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Studio Pedestals & Lighting Environments (International SaaS Standard) */
+.poster-pedestal-travertine {
+  position: absolute;
+  bottom: 4%;
+  left: 12%;
+  right: 12%;
+  height: clamp(14px, 3.2cqi, 28px);
+  background: linear-gradient(180deg, #f5f5f4 0%, #e7e5e4 55%, #d6d3d1 100%);
+  border-radius: 9999px;
+  box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  z-index: 1;
+}
+
+.poster-pedestal-obsidian {
+  position: absolute;
+  bottom: 4%;
+  left: 12%;
+  right: 12%;
+  height: clamp(12px, 2.8cqi, 26px);
+  background: linear-gradient(180deg, #27272a 0%, #18181b 60%, #09090b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.poster-pedestal-cyber {
+  position: absolute;
+  bottom: 4%;
+  left: 10%;
+  right: 10%;
+  height: clamp(14px, 3cqi, 28px);
+  background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.4) 0%, rgba(139, 92, 246, 0.15) 60%, transparent 100%);
+  border: 1.5px solid #06b6d4;
+  border-radius: 9999px;
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.6);
+  z-index: 1;
+}
+
+/* High-Contrast Text Shadows ensuring legibility on complex art */
+.poster-text-contrast-guard-dark {
+  text-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.85),
+    0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.poster-text-contrast-guard-light {
+  text-shadow: 
+    0 1px 4px rgba(255, 255, 255, 0.9),
+    0 2px 10px rgba(255, 255, 255, 0.7);
+}
+
+/* ==========================================================================
+   3. SURFACE CARDS WITH ACCESSIBLE CONTRAST
+   ========================================================================== */
+
+/* Frosted Glass Surface Card */
+.poster-surface-frosted-dark {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.poster-surface-frosted-light {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 20px 40px -10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Solid High-Contrast Surface Card */
+.poster-surface-solid-dark {
+  background: #090d16;
+  border: 2px solid var(--poster-accent, #6366f1);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7);
+}
+
+.poster-surface-solid-light {
+  background: #ffffff;
+  border: 2px solid var(--poster-accent, #4f46e5);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+}
+
+/* Pure Cyclorama Clean Surface */
+.poster-surface-cyclorama {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.1);
+  color: #09090b !important;
+}
+
+/* Atmospheric Borderless Glass */
+.poster-surface-atmospheric {
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.85) 0%, rgba(9, 13, 22, 0.95) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* ==========================================================================
+   4. ARCHETYPE-SPECIFIC HIGH-CONTRAST PALETTES
+   ========================================================================== */
+
+/* 1. Book Kaaro Official (Digital Marketplace Trust) */
+[data-archetype="bookkaaro_official"] {
+  --poster-bg: #090d16;
+  --poster-accent: #6366f1;
+  --poster-accent-sub: #818cf8;
+  --poster-text: #ffffff;
+  --poster-price: #818cf8;
+  --poster-badge-bg: rgba(99, 102, 241, 0.22);
+  --poster-badge-text: #c7d2fe;
+  --poster-cta-bg: #6366f1;
+  --poster-cta-text: #ffffff;
+  --poster-border: rgba(99, 102, 241, 0.35);
+}
+
+/* 2. Shopify Modern (Minimalist Editorial Monotone) */
+[data-archetype="shopify_modern"] {
+  --poster-bg: #09090b;
+  --poster-accent: #ffffff;
+  --poster-accent-sub: #a1a1aa;
+  --poster-text: #ffffff;
+  --poster-price: #ffffff;
+  --poster-badge-bg: rgba(255, 255, 255, 0.14);
+  --poster-badge-text: #f4f4f5;
+  --poster-cta-bg: #ffffff;
+  --poster-cta-text: #09090b;
+  --poster-border: rgba(255, 255, 255, 0.2);
+}
+
+/* 3. Amazon Deal (High-Conversion Retail Gold) */
+[data-archetype="amazon_deal"] {
+  --poster-bg: #0b1324;
+  --poster-accent: #f59e0b;
+  --poster-accent-sub: #facc15;
+  --poster-text: #ffffff;
+  --poster-price: #fbbf24;
+  --poster-badge-bg: rgba(245, 158, 11, 0.22);
+  --poster-badge-text: #fde68a;
+  --poster-cta-bg: #f59e0b;
+  --poster-cta-text: #0f172a;
+  --poster-border: rgba(245, 158, 11, 0.45);
+}
+
+/* 4. Etsy Artisan (Warm Linen & Turquoise) */
+[data-archetype="etsy_artisan"] {
+  --poster-bg: #1c1917;
+  --poster-accent: #2dd4bf;
+  --poster-accent-sub: #f59e0b;
+  --poster-text: #ffffff;
+  --poster-price: #2dd4bf;
+  --poster-badge-bg: rgba(45, 212, 191, 0.22);
+  --poster-badge-text: #99f6e4;
+  --poster-cta-bg: #2dd4bf;
+  --poster-cta-text: #0c0a09;
+  --poster-border: rgba(45, 212, 191, 0.35);
+}
+
+/* 5. Gumroad Digital (Cyber Grid Laser Cyan) */
+[data-archetype="gumroad_digital"] {
+  --poster-bg: #020617;
+  --poster-accent: #06b6d4;
+  --poster-accent-sub: #8b5cf6;
+  --poster-text: #ffffff;
+  --poster-price: #22d3ee;
+  --poster-badge-bg: rgba(6, 182, 212, 0.22);
+  --poster-badge-text: #67e8f9;
+  --poster-cta-bg: #06b6d4;
+  --poster-cta-text: #020617;
+  --poster-border: rgba(6, 182, 212, 0.45);
+}
+
+/* 6. TikTok Viral (Hot Pink & Magenta Pop) */
+[data-archetype="tiktok_viral"] {
+  --poster-bg: #3b0764;
+  --poster-accent: #ec4899;
+  --poster-accent-sub: #fb7185;
+  --poster-text: #ffffff;
+  --poster-price: #f472b6;
+  --poster-badge-bg: rgba(236, 72, 153, 0.24);
+  --poster-badge-text: #fbcfe8;
+  --poster-cta-bg: #ec4899;
+  --poster-cta-text: #ffffff;
+  --poster-border: rgba(236, 72, 153, 0.45);
+}
+
+/* 7. Story Glass (Radiant Iris & Twilight) */
+[data-archetype="story_glass"] {
+  --poster-bg: #1e1b4b;
+  --poster-accent: #a855f7;
+  --poster-accent-sub: #c084fc;
+  --poster-text: #ffffff;
+  --poster-price: #c084fc;
+  --poster-badge-bg: rgba(168, 85, 247, 0.22);
+  --poster-badge-text: #e9d5ff;
+  --poster-cta-bg: #a855f7;
+  --poster-cta-text: #ffffff;
+  --poster-border: rgba(168, 85, 247, 0.4);
+}
+
+/* 8. Urgent Flash Sale (High-Impact Crimson & High-Voltage Yellow) */
+[data-archetype="flash_sale"] {
+  --poster-bg: #450a0a;
+  --poster-accent: #facc15;
+  --poster-accent-sub: #f97316;
+  --poster-text: #ffffff;
+  --poster-price: #facc15;
+  --poster-badge-bg: rgba(250, 204, 21, 0.24);
+  --poster-badge-text: #fef9c3;
+  --poster-cta-bg: #facc15;
+  --poster-cta-text: #000000;
+  --poster-border: rgba(250, 204, 21, 0.55);
+}
+
+/* 9. Luxury Obsidian & Gold (Royal Onyx with Metallic Foil) */
+[data-archetype="luxury_gold"] {
+  --poster-bg: #12100e;
+  --poster-accent: #fbbf24;
+  --poster-accent-sub: #f59e0b;
+  --poster-text: #fffbeb;
+  --poster-price: #fbbf24;
+  --poster-badge-bg: rgba(251, 191, 36, 0.2);
+  --poster-badge-text: #fde68a;
+  --poster-cta-bg: #fbbf24;
+  --poster-cta-text: #17130c;
+  --poster-border: rgba(251, 191, 36, 0.5);
+}
+
+/* 10. Eid & Festive Celebration (Emerald Forest & Islamic Gold) */
+[data-archetype="festive_eid"] {
+  --poster-bg: #022c22;
+  --poster-accent: #f59e0b;
+  --poster-accent-sub: #34d399;
+  --poster-text: #ffffff;
+  --poster-price: #fbbf24;
+  --poster-badge-bg: rgba(245, 158, 11, 0.22);
+  --poster-badge-text: #fef08a;
+  --poster-cta-bg: #f59e0b;
+  --poster-cta-text: #022c22;
+  --poster-border: rgba(245, 158, 11, 0.45);
+}
+
+/* 11. Bestseller Proof (Navy Trust & Gold Proof) */
+[data-archetype="bestseller_proof"] {
+  --poster-bg: #0f172a;
+  --poster-accent: #eab308;
+  --poster-accent-sub: #38bdf8;
+  --poster-text: #ffffff;
+  --poster-price: #facc15;
+  --poster-badge-bg: rgba(234, 179, 8, 0.22);
+  --poster-badge-text: #fef08a;
+  --poster-cta-bg: #eab308;
+  --poster-cta-text: #0f172a;
+  --poster-border: rgba(234, 179, 8, 0.45);
+}
+
+/* 12. Wholesale & B2B Catalog (Enterprise Slate & Azure) */
+[data-archetype="wholesale_b2b"] {
+  --poster-bg: #1e293b;
+  --poster-accent: #38bdf8;
+  --poster-accent-sub: #ea580c;
+  --poster-text: #ffffff;
+  --poster-price: #38bdf8;
+  --poster-badge-bg: rgba(56, 189, 248, 0.22);
+  --poster-badge-text: #bae6fd;
+  --poster-cta-bg: #38bdf8;
+  --poster-cta-text: #0f172a;
+  --poster-border: rgba(56, 189, 248, 0.4);
+}
